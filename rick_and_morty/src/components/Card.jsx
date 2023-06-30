@@ -75,7 +75,7 @@ const FavButton=styled.button`
 // Desestructurando props
 export default function Card({character,onClose}) {
 
-   const myFavorites=useSelector((state) => state.myFavorites)
+   const myFavorites=useSelector((state) => state.allCharacters)
 
    useEffect(() => {
       myFavorites.forEach((fav) => {
