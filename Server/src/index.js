@@ -1,28 +1,32 @@
-const http=require('http');
-// const data=require('./utils/data')
-const {getCharById}=require("./controllers/getCharById");
+const express = require("express");
+const router = require("./routes/index");
 
-http.createServer((req,res)=>{
+const server = express();
 
-    // console.log(req.url)
+const PORT = 3001;
 
-    res.setHeader('Access-Control-Allow-Origin','*')
+//El middleware (CORS) a continuación establece los headers para permitir el acceso al servidor por parte del cliente
+//Cors es un protocolo de comunicación para comunicación entre dos puntos.
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 
-    // if(req.url.includes('rickandmorty/character')) {
-    //     const charId=Number(req.url.slice(req.url.lastIndexOf('/')+1))
-    //     const character = data.find(char => char.id===charId)
-    //     if(!character) {
-    //         res.writeHead(404, {'Content-Type':'text-plain'});
-    //         return res.end('Character not found')
-    //     }
-    //     res.writeHead(200, {'Content-Type':'application/json'})
-    //     return res.end(JSON.stringify(character))
-    // }
+//En lugar de lo anterior, puedo instalar cors y utilizar su middleware:
+// Lo instalo -> npm install cors
+// Lo importo -> const cors=require('cors')
+// Llamo el middleware -> server.use(cors())
 
-    if(req.url.includes('rickandmorty/character')) {
-        const charId=Number(req.url.slice(req.url.lastIndexOf('/')+1));
-        // console.log(charId);
-        getCharById(res,charId);
-    }
+server.use(express.json());
 
-}).listen(3001,'localhost')
+server.use('/rickandmorty',router)
+
+server.listen(PORT, () => {
+  console.log(`Server raised in port ${PORT}`);
+});
