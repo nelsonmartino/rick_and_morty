@@ -6,12 +6,7 @@ import Cards from "./components/Cards.jsx";
 import Nav from "./components/Nav";
 import { useEffect, useState } from "react";
 // import axios from 'axios';
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import About from "./components/About";
 import Detail from "./components/Detail";
 import Form from "./components/Form";
@@ -52,7 +47,9 @@ function App() {
       );
       const { access } = data;
       access && navigate("/home");
-    } catch (error) {}
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   }
 
   useEffect(() => {
@@ -103,13 +100,17 @@ function App() {
         const res = await fetch(
           `http://localhost:3001/rickandmorty/character/${id}`
         );
+        if(!res.ok) throw Error(res.statusText)
         const data = await res.json();
-        if (data.name) {
-          setCharacters([...characters, data]);
-        } else {
-          window.alert("¡No hay personajes con este ID!");
-        }
-      } catch (error) {}
+        setCharacters([...characters, data]);
+        // if (data.name) {
+        //   setCharacters([...characters, data]);
+        // } else {
+        //   window.alert("¡No hay personajes con este ID!");
+        // }
+      } catch (error) {
+        alert(error);
+      }
     }
   };
 

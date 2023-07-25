@@ -34,7 +34,9 @@ export const addFav = (character) => {
         type: "ADD_FAV",
         payload: data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
@@ -57,7 +59,9 @@ export const removeFav = (id) => {
         type: "REMOVE_FAV",
         payload: data,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

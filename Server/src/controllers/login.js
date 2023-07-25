@@ -9,7 +9,9 @@ function login(req, res) {
   );
   accessUser
     ? res.status(200).json({ access: true })
-    : res.status(403).json({ access: false });
+    : res
+        .status(403)
+        .json({ access: false, message: "Usuario y/o contraseña incorrectos" });
 
   // if (accessUser) {
   //   return res.status(200).json({ access: true });
