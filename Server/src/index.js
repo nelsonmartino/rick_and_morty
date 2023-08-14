@@ -3,7 +3,10 @@
 
 // const server = express();
 
-const PORT = 3001;
+const { conn } = require("./DB_connection");
+require("dotenv").config();
+
+const { PORT } = process.env;
 
 // //El middleware (CORS) a continuación establece los headers para permitir el acceso al servidor por parte del cliente
 // //Cors es un protocolo de comunicación para comunicación entre dos puntos.
@@ -27,8 +30,9 @@ const PORT = 3001;
 
 // server.use('/rickandmorty',router)
 
-const server=require('./app')
+const server = require("./app");
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+  await conn.sync({ force: false });
   console.log(`Server raised in port ${PORT}`);
 });

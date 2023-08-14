@@ -1,25 +1,20 @@
-const users = require("../utils/users");
+const { User } = require("../DB_connection");
 
-// Tambien se puede hacer _ module.exports = () => {} _ y la bautizo cuando la importo desde el otro archivo
-
-function login(req, res) {
+const login = async (req, res) => {
   const { email, password } = req.query;
-  const accessUser = users.find(
-    (user) => user.email === email && user.password === password
-  );
-  accessUser
-    ? res.status(200).json({ access: true })
-    : res
-        .status(403)
-        .json({ access: false, message: "Usuario y/o contraseña incorrectos" });
-
-  // if (accessUser) {
-  //   return res.status(200).json({ access: true });
-  // } else {
-  //   return res.status(403).json({ access: false });
-  // }
-}
-
-// login({query:{ email: "nelson@email.com", password: "asd123" }});
+  if (!email || !password) {
+    res.status(400).send("Faltan datos");
+  }
+  try {
+    const user = await User.findOne({ where: { email, password } });
+    if (user) {
+      res.status(200).json({ access: true });
+    } else {
+      res.status(403).send("Usuario y/o contraseña incorrectos");
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = login;

@@ -81,12 +81,12 @@ export default function Card({character,onClose}) {
 
    useEffect(() => {
       myFavorites.forEach((fav) => {
-         if (fav.id === character.id) {
+         if (fav.id === Number(character.id)) {
             setIsFav(true);
          }
       });
    }, [myFavorites]);
-   
+
    const dispatch = useDispatch();
 
    // REDUX: En este caso de usaron los hooks de componentes funcionales. Ejemplo de uso de mapStateToProps y mapDispatchToProps en archivos de Code Review

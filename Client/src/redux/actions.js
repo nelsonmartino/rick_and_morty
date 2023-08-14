@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
+export const GET_FAV = "GET_FAV";
 //Estas constantes tambien pueden crearse en un archivo separado (action_types) y luego importarse de este.
 
 // Las dos funciones hacen lo mismo pero están expresadas de diferente manera.
@@ -63,6 +64,15 @@ export const removeFav = (id) => {
       console.log(error);
     }
   };
+};
+
+export const getFav = async (dispatch) => {
+  try {
+    const { data } = await axios.get("http://localhost:3001/rickandmorty/fav");
+    return dispatch({ type: GET_FAV, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const filterCards = (gender) => {

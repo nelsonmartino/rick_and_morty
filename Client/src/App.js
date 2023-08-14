@@ -103,6 +103,7 @@ function App() {
         if(!res.ok) throw Error(res.statusText)
         const data = await res.json();
         setCharacters([...characters, data]);
+        // console.log([...characters, data]);
         // if (data.name) {
         //   setCharacters([...characters, data]);
         // } else {
